@@ -1,0 +1,25 @@
+{
+  "servers": [
+    {
+      "name": "API (Express + Prisma)",
+      "cwd": "/Users/santiago/santi/CoachOS/api",
+      "command": "npm run dev",
+      "env": {
+        "PATH": "/usr/local/bin:/usr/bin:/bin"
+      },
+      "port": 3000,
+      "description": "Node.js REST API with ts-node-dev, auto-restarts on changes"
+    },
+    {
+      "name": "App (Expo)",
+      "cwd": "/Users/santiago/santi/CoachOS/app",
+      "command": "npx expo start",
+      "env": {
+        "PATH": "/usr/local/bin:/usr/bin:/bin",
+        "EXPO_PUBLIC_API_URL": "http://localhost:3000"
+      },
+      "port": 8081,
+      "description": "Expo dev server — use Expo Go on phone or --ios/--android flags"
+    }
+  ]
+}

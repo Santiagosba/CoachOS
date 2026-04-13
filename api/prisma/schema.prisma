@@ -1,0 +1,211 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Enums removed for SQLite compatibility
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("CLIENT")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Si es TRAINER: sus clientes
+  clients Client[] @relation("TrainerClients")
+  programTemplates ProgramTemplate[] @relation("TrainerTemplates")
+
+  // Si es CLIENT: su perfil de cliente
+  clientProfile Client? @relation("ClientUser")
+}
+
+model Client {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // El usuario cliente
+  userId String @unique
+  user   User   @relation("ClientUser", fields: [userId], references: [id])
+
+  // El trainer que lo gestiona
+  trainerId String
+  trainer   User   @relation("TrainerClients", fields: [trainerId], references: [id])
+
+  // Métricas
+  birthDate DateTime?
+  height    Float?    // cm
+  weight    Float?    // kg
+  goal      String?
+  notes     String?
+
+  programs     Program[]
+  sessions     Session[]
+  workoutLogs  WorkoutLog[]
+}
+
+// ─── Programas de entrenamiento ───────────────────────────────────────────────
+
+model Program {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  startDate   DateTime?
+  endDate     DateTime?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id])
+
+  weeks Week[]
+}
+
+model ProgramTemplate {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  trainerId String
+  trainer   User   @relation("TrainerTemplates", fields: [trainerId], references: [id])
+
+  weeks ProgramTemplateWeek[]
+}
+
+model ProgramTemplateWeek {
+  id         Int             @id @default(autoincrement())
+  weekNumber Int
+  templateId String
+  template   ProgramTemplate @relation(fields: [templateId], references: [id])
+
+  days ProgramTemplateDay[]
+}
+
+model ProgramTemplateDay {
+  id         Int                 @id @default(autoincrement())
+  dayOfWeek  Int
+  label      String?
+  weekId     Int
+  week       ProgramTemplateWeek @relation(fields: [weekId], references: [id])
+
+  exercises ProgramTemplateDayExercise[]
+}
+
+model ProgramTemplateDayExercise {
+  id         Int                @id @default(autoincrement())
+  order      Int
+  sets       Int
+  reps       String
+  rpe        Float?
+  notes      String?
+
+  dayId      Int
+  day        ProgramTemplateDay @relation(fields: [dayId], references: [id])
+
+  exerciseId String
+  exercise   Exercise           @relation(fields: [exerciseId], references: [id])
+}
+
+model Week {
+  id        Int     @id @default(autoincrement())
+  weekNumber Int
+  programId String
+  program   Program @relation(fields: [programId], references: [id])
+
+  days Day[]
+}
+
+model Day {
+  id         Int    @id @default(autoincrement())
+  dayOfWeek  Int    // 0=Lunes … 6=Domingo
+  label      String? // ej: "Push", "Pull", "Piernas"
+  weekId     Int
+  week       Week   @relation(fields: [weekId], references: [id])
+
+  exercises DayExercise[]
+}
+
+model Exercise {
+  id           String  @id @default(uuid())
+  name         String  @unique
+  muscleGroup  String?
+  category     String?
+  equipment    String?
+  description  String?
+  videoUrl     String?
+
+  dayExercises DayExercise[]
+  templateDayExercises ProgramTemplateDayExercise[]
+  logSets      LogSet[]
+}
+
+model DayExercise {
+  id         Int      @id @default(autoincrement())
+  order      Int
+  sets       Int
+  reps       String   // ej: "8-10" o "12"
+  rpe        Float?
+  notes      String?
+
+  dayId      Int
+  day        Day      @relation(fields: [dayId], references: [id])
+
+  exerciseId String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+// ─── Logs de entrenamiento ────────────────────────────────────────────────────
+
+model WorkoutLog {
+  id        String   @id @default(uuid())
+  date      DateTime @default(now())
+  notes     String?
+
+  clientId  String
+  client    Client   @relation(fields: [clientId], references: [id])
+
+  sets      LogSet[]
+}
+
+model LogSet {
+  id           Int        @id @default(autoincrement())
+  setNumber    Int
+  reps         Int
+  weight       Float      // kg
+  rpe          Float?
+  notes        String?
+
+  workoutLogId String
+  workoutLog   WorkoutLog @relation(fields: [workoutLogId], references: [id])
+
+  exerciseId   String
+  exercise     Exercise   @relation(fields: [exerciseId], references: [id])
+}
+
+// ─── Sesiones / Calendario ────────────────────────────────────────────────────
+
+model Session {
+  id              String   @id @default(uuid())
+  date            DateTime
+  duration        Int      // minutos
+  type            String   @default("PRESENCIAL")
+  status          String   @default("PENDING")
+  createdByRole   String   @default("TRAINER")
+  cancelledByRole String?  // "TRAINER" | "CLIENT" — quién canceló
+  notes           String?
+  createdAt       DateTime @default(now())
+
+  clientId  String
+  client    Client @relation(fields: [clientId], references: [id])
+}
+
+// Enums removed for SQLite compatibility

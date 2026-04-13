@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "CoachOS",
+    "slug": "coachos",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0f172a"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.coachos.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0f172a"
+      },
+      "package": "com.coachos.app"
+    },
+    "scheme": "coachos",
+    "plugins": ["expo-router", "expo-secure-store"]
+  }
+}
