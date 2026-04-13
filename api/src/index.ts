@@ -13,7 +13,30 @@ import adminRoutes from './routes/admin'
 
 const app = express()
 
-app.use(cors())
+const allowedOrigins = (process.env.CORS_ORIGINS ?? '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      // Server-to-server, curl, Postman or same-origin requests without Origin
+      if (!origin) {
+        callback(null, true)
+        return
+      }
+
+      if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+        callback(null, true)
+        return
+      }
+
+      callback(new Error('Origen no permitido por CORS'))
+    },
+    credentials: true,
+  })
+)
 app.use(express.json())
 
 app.use('/auth', authRoutes)
@@ -25,9 +48,15 @@ app.use('/client', clientRoutes)
 app.use('/program-templates', programTemplateRoutes)
 app.use('/admin', adminRoutes)
 
-app.get('/health', (_, res) => res.json({ ok: true }))
+app.get('/health', (_, res) =>
+  res.json({
+    ok: true,
+    service: 'coachos-api',
+    timestamp: new Date().toISOString(),
+  })
+)
 
 const PORT = process.env.PORT ?? 3000
 app.listen(PORT, () => {
-  console.log(`CoachOS API running on http://localhost:${PORT}`)
+  console.log(`CoachOS API running on port ${PORT}`)
 })

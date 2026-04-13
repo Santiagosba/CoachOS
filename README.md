@@ -107,6 +107,7 @@ Para desplegar en Render:
 3. Define variables:
    - `DATABASE_URL`
    - `JWT_SECRET`
+   - `CORS_ORIGINS`
    - `ADMIN_EMAIL`
    - `ADMIN_PASSWORD`
    - `ADMIN_NAME`
@@ -117,6 +118,16 @@ Comandos utiles en [`api`](/Users/santiago/santi/CoachOS/api):
 - `npm run db:seed-admin`: crea o actualiza el admin
 - `npm run db:setup-production`: prepara esquema + admin
 - `npm run db:migrate-sqlite`: mueve los datos desde `prisma/dev.db` a PostgreSQL
+
+## Conexion app + API en produccion
+
+Para que la web publicada funcione con la API desplegada:
+
+1. En la API define `CORS_ORIGINS` con la URL exacta del frontend, por ejemplo:
+   - `https://coachos.netlify.app`
+2. En la app define `EXPO_PUBLIC_API_URL` apuntando a tu API publica, por ejemplo:
+   - `https://coachos-api.onrender.com`
+3. La web de Netlify debe reconstruirse con esa variable disponible en build.
 
 ## Siguiente paso sugerido
 
