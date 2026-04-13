@@ -1,3 +1,8 @@
+databases:
+  - name: coachos-db
+    databaseName: coachos
+    plan: free
+
 services:
   - type: web
     name: coachos-api
@@ -11,14 +16,12 @@ services:
       - key: PORT
         value: 10000
       - key: DATABASE_URL
-        value: file:/var/data/prod.db
+        fromDatabase:
+          name: coachos-db
+          property: connectionString
       - key: JWT_SECRET
         generateValue: true
       - key: SEED_TRAINER_EMAIL
         sync: false
       - key: SEED_TRAINER_PASSWORD
         sync: false
-    disk:
-      name: coachos-data
-      mountPath: /var/data
-      sizeGB: 1
