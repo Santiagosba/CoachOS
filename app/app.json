@@ -22,6 +22,10 @@
       },
       "package": "com.coachos.app"
     },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
     "scheme": "coachos",
     "plugins": ["expo-router", "expo-secure-store"]
   }
