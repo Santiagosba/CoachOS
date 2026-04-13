@@ -4,15 +4,21 @@ import bcrypt from 'bcryptjs'
 const prisma = new PrismaClient()
 
 async function main() {
-  const email = 'santiagosba88@gmail.com'
-  const existing = await prisma.user.findUnique({ where: { email } })
+  const email = process.env.SEED_TRAINER_EMAIL ?? ''
+  const password = process.env.SEED_TRAINER_PASSWORD ?? ''
 
+  if (!email || !password) {
+    console.log('⚠ SEED_TRAINER_EMAIL / SEED_TRAINER_PASSWORD no definidos, omitiendo.')
+    return
+  }
+
+  const existing = await prisma.user.findUnique({ where: { email } })
   if (existing) {
     console.log(`✓ Usuario ya existe: ${email}`)
     return
   }
 
-  const hash = await bcrypt.hash('Santy1234', 10)
+  const hash = await bcrypt.hash(password, 10)
   const user = await prisma.user.create({
     data: {
       name: 'Santiago',
