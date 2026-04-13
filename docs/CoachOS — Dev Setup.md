@@ -3,14 +3,14 @@
 
 ## Prerequisites
 - Node.js (at `/usr/local/bin/node`, v24.14.1)
-- SQLite (no setup needed — file-based)
+- PostgreSQL
 
 ## Start API
 ```bash
 cd /Users/santiago/santi/CoachOS/api
 cp .env.example .env   # edit DATABASE_URL, JWT_SECRET, PORT
 npm install
-npm run db:migrate
+npm run db:push
 npm run db:seed        # loads 55 exercises
 npm run dev            # ts-node-dev on port 3000
 ```
@@ -28,7 +28,7 @@ npx expo start --android
 
 ### API `.env`
 ```
-DATABASE_URL="file:./prisma/dev.db"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/coachos?schema=public"
 JWT_SECRET="your-secret-here"
 PORT=3000
 ```

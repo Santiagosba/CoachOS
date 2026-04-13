@@ -2,15 +2,21 @@
   "name": "coachos-api",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
+    "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate",
     "db:studio": "prisma studio",
     "db:seed": "ts-node --transpile-only prisma/seed.ts",
-    "db:seed-admin": "ts-node --transpile-only prisma/seed-admin.ts"
+    "db:seed-admin": "ts-node --transpile-only prisma/seed-admin.ts",
+    "db:migrate-sqlite": "node prisma/migrate-sqlite-to-postgres.js",
+    "db:setup-production": "prisma db push && npm run db:seed-admin"
   },
   "dependencies": {
     "@prisma/client": "^5.13.0",

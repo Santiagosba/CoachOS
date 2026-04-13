@@ -12,9 +12,9 @@ El producto tiene dos caras:
 - App movil: React Native + Expo Router
 - API: Node.js + Express + TypeScript
 - ORM: Prisma
-- Base de datos actual: SQLite
+- Base de datos actual: PostgreSQL para produccion, con script de migracion desde SQLite local
 
-Nota: la idea original menciona PostgreSQL. El prototipo actual usa SQLite y puede migrarse mas adelante a PostgreSQL sin cambiar la estructura general del producto.
+Nota: el proyecto ya esta preparado para desplegar la API con PostgreSQL y mover los datos desde la SQLite local del prototipo.
 
 ## Lo que ya existe en el proyecto
 
@@ -97,6 +97,26 @@ Esto cubre bien el nucleo del producto: clientes, programacion del entrenamiento
 - [`api`](/Users/santiago/santi/CoachOS/api): API Express con Prisma
 - [`api/prisma/schema.prisma`](/Users/santiago/santi/CoachOS/api/prisma/schema.prisma): modelo de datos actual
 - [`docs/roadmap.md`](/Users/santiago/santi/CoachOS/docs/roadmap.md): roadmap propuesto del producto
+
+## Despliegue rapido de API
+
+Para desplegar en Render:
+
+1. Crea una base PostgreSQL y copia su `DATABASE_URL`
+2. Configura el servicio usando [`render.yaml`](/Users/santiago/santi/CoachOS/render.yaml)
+3. Define variables:
+   - `DATABASE_URL`
+   - `JWT_SECRET`
+   - `ADMIN_EMAIL`
+   - `ADMIN_PASSWORD`
+   - `ADMIN_NAME`
+
+Comandos utiles en [`api`](/Users/santiago/santi/CoachOS/api):
+
+- `npm run db:push`: crea o sincroniza el esquema en PostgreSQL
+- `npm run db:seed-admin`: crea o actualiza el admin
+- `npm run db:setup-production`: prepara esquema + admin
+- `npm run db:migrate-sqlite`: mueve los datos desde `prisma/dev.db` a PostgreSQL
 
 ## Siguiente paso sugerido
 

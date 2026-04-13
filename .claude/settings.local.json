@@ -69,7 +69,12 @@
       "Bash(~/.local/bin/gh --version)",
       "Bash(~/.local/bin/gh auth:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(grep -E \"\\\\.env$|\\\\.db$|node_modules\")",
+      "Bash(git commit -m ':*)",
+      "Bash(~/.local/bin/gh repo:*)",
+      "Bash(git checkout:*)",
+      "Bash(git push:*)"
     ]
   }
 }

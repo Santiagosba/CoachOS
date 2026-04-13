@@ -77,7 +77,7 @@ WorkoutLog (clientId, date, notes?)
 
 ## Commands
 ```bash
-npm run db:migrate   # prisma migrate dev
+npm run db:push      # prisma db push
 npm run db:generate  # prisma generate
 npm run db:studio    # prisma studio (GUI)
 npm run db:seed      # seed exercises

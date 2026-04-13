@@ -3,11 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
-
-// Enums removed for SQLite compatibility
 
 model User {
   id        String   @id @default(uuid())
@@ -207,5 +205,3 @@ model Session {
   clientId  String
   client    Client @relation(fields: [clientId], references: [id])
 }
-
-// Enums removed for SQLite compatibility
