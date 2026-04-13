@@ -1,0 +1,27 @@
+databases:
+  - name: coachos-db
+    databaseName: coachos
+    plan: free
+
+services:
+  - type: web
+    name: coachos-api
+    runtime: node
+    rootDir: api
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: sh start.sh
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: coachos-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SEED_TRAINER_EMAIL
+        sync: false
+      - key: SEED_TRAINER_PASSWORD
+        sync: false
