@@ -5,6 +5,7 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  EXPO_PUBLIC_API_URL = "https://coachos-api.onrender.com"
 
 [[redirects]]
   from = "/*"

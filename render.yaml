@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: coachos-api
+    runtime: node
+    rootDir: api
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: sh start.sh
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        value: file:/var/data/prod.db
+      - key: JWT_SECRET
+        generateValue: true
+    disk:
+      name: coachos-data
+      mountPath: /var/data
+      sizeGB: 1
