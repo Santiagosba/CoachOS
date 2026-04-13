@@ -1,0 +1,9 @@
+.git
+.gitignore
+.claude
+app
+docs
+node_modules
+api/node_modules
+api/prisma/dev.db
+README.md
