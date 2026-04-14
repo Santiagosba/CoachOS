@@ -2,7 +2,7 @@ FROM node:20-slim
 
 WORKDIR /app/api
 
-RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y openssl sqlite3 && rm -rf /var/lib/apt/lists/*
 
 COPY api/package*.json ./
 RUN npm install
