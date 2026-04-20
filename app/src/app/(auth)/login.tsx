@@ -7,10 +7,16 @@ import {
   StyleSheet,
   ActivityIndicator,
   Alert,
+  Platform,
 } from 'react-native'
 import { useAuthStore } from '@/lib/auth-store'
 import LiquidGlassBackground, { glass } from '@/components/LiquidGlassBackground'
 import PasswordField from '@/components/PasswordField'
+
+const webBlur: object =
+  Platform.OS === 'web'
+    ? ({ backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)' } as object)
+    : {}
 
 export default function LoginScreen() {
   const { login, registerTrainer } = useAuthStore()
@@ -73,11 +79,21 @@ export default function LoginScreen() {
   return (
     <LiquidGlassBackground>
       <View style={styles.container}>
-        <View style={[glass.card, styles.panel]}>
-          <Text style={styles.eyebrow}>Personal Training OS</Text>
-          <Text style={styles.title}>CoachOS</Text>
-          <Text style={styles.subtitle}>
-            {mode === 'login' ? 'Entra en tu cuenta' : 'Crea tu cuenta de entrenador'}
+        {/* Logo area */}
+        <View style={styles.logoArea}>
+          <View style={styles.logoOrb} />
+          <Text style={styles.logoMark}>C</Text>
+        </View>
+        <Text style={styles.appName}>CoachOS</Text>
+        <Text style={styles.tagline}>Personal Training OS</Text>
+
+        {/* Glass panel */}
+        <View style={[styles.panel, webBlur as any]}>
+          <Text style={styles.panelTitle}>
+            {mode === 'login' ? 'Bienvenido de vuelta' : 'Crea tu cuenta'}
+          </Text>
+          <Text style={styles.panelSub}>
+            {mode === 'login' ? 'Entra en tu espacio de entrenamiento' : 'Empieza como entrenador personal'}
           </Text>
 
           {mode === 'register' && (
@@ -85,14 +101,14 @@ export default function LoginScreen() {
               <TextInput
                 style={styles.input}
                 placeholder="Nombre"
-                placeholderTextColor="#6f8196"
+                placeholderTextColor="rgba(160, 185, 230, 0.45)"
                 value={firstName}
                 onChangeText={setFirstName}
               />
               <TextInput
                 style={styles.input}
                 placeholder="Apellidos"
-                placeholderTextColor="#6f8196"
+                placeholderTextColor="rgba(160, 185, 230, 0.45)"
                 value={lastName}
                 onChangeText={setLastName}
               />
@@ -102,7 +118,7 @@ export default function LoginScreen() {
           <TextInput
             style={styles.input}
             placeholder="Email"
-            placeholderTextColor="#6f8196"
+            placeholderTextColor="rgba(160, 185, 230, 0.45)"
             autoCapitalize="none"
             keyboardType="email-address"
             value={email}
@@ -111,7 +127,7 @@ export default function LoginScreen() {
           <PasswordField
             style={styles.input}
             placeholder="Contraseña"
-            placeholderTextColor="#6f8196"
+            placeholderTextColor="rgba(160, 185, 230, 0.45)"
             value={password}
             onChangeText={setPassword}
           />
@@ -121,12 +137,12 @@ export default function LoginScreen() {
               <PasswordField
                 style={styles.input}
                 placeholder="Repite la contraseña"
-                placeholderTextColor="#6f8196"
+                placeholderTextColor="rgba(160, 185, 230, 0.45)"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
               />
               <Text style={styles.passwordHint}>
-                La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número.
+                8+ caracteres · mayúscula · minúscula · número
               </Text>
             </>
           )}
@@ -134,7 +150,7 @@ export default function LoginScreen() {
           {!!errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
 
           <TouchableOpacity
-            style={styles.button}
+            style={[styles.button, loading && styles.buttonDisabled]}
             onPress={mode === 'login' ? handleLogin : handleRegister}
             disabled={loading}
           >
@@ -175,81 +191,133 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     padding: 24,
   },
-  panel: {
-    padding: 24,
-    backgroundColor: 'rgba(245,250,255,0.34)',
+  // Logo
+  logoArea: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.18)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+    shadowColor: '#3b72f5',
+    shadowOffset: { width: 0, height: 16 },
+    shadowOpacity: 0.55,
+    shadowRadius: 32,
   },
-  eyebrow: {
-    color: '#53657d',
+  logoOrb: {
+    position: 'absolute',
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: 'rgba(60, 110, 250, 0.25)',
+  },
+  logoMark: {
+    fontSize: 36,
+    fontWeight: '900',
+    color: 'rgba(240, 244, 255, 0.95)',
+    letterSpacing: -1,
+  },
+  appName: {
+    fontSize: 44,
+    fontWeight: '900',
+    color: 'rgba(240, 244, 255, 0.97)',
+    letterSpacing: -2,
+    marginBottom: 6,
+  },
+  tagline: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: 'rgba(160, 185, 230, 0.55)',
+    letterSpacing: 2,
     textTransform: 'uppercase',
-    letterSpacing: 1.6,
-    fontSize: 11,
-    fontWeight: '700',
-    textAlign: 'center',
-    marginBottom: 12,
+    marginBottom: 36,
   },
-  title: {
-    fontSize: 42,
+  // Panel
+  panel: {
+    width: '100%',
+    maxWidth: 420,
+    backgroundColor: 'rgba(255, 255, 255, 0.07)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.14)',
+    borderRadius: 32,
+    padding: 28,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 32 },
+    shadowOpacity: 0.55,
+    shadowRadius: 48,
+    elevation: 24,
+  },
+  panelTitle: {
+    fontSize: 22,
     fontWeight: '800',
-    color: '#10213a',
-    marginBottom: 8,
-    textAlign: 'center',
+    color: 'rgba(240, 244, 255, 0.95)',
+    marginBottom: 6,
+    letterSpacing: -0.4,
   },
-  subtitle: {
-    color: '#53657d',
-    textAlign: 'center',
-    fontSize: 15,
-    marginBottom: 28,
+  panelSub: {
+    fontSize: 14,
+    color: 'rgba(160, 185, 230, 0.60)',
+    marginBottom: 24,
+    lineHeight: 20,
   },
   input: {
-    backgroundColor: 'rgba(255,255,255,0.42)',
-    color: '#10213a',
+    backgroundColor: 'rgba(255, 255, 255, 0.07)',
+    color: 'rgba(240, 244, 255, 0.92)',
     borderRadius: 18,
-    padding: 14,
+    padding: 15,
     fontSize: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.55)',
+    borderColor: 'rgba(255, 255, 255, 0.12)',
   },
   button: {
-    backgroundColor: '#113b7a',
-    borderRadius: 18,
+    backgroundColor: '#2b5fd9',
+    borderRadius: 20,
     padding: 16,
     alignItems: 'center',
     marginTop: 8,
-    shadowColor: '#0f2d5f',
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.25,
-    shadowRadius: 20,
-    elevation: 8,
+    shadowColor: '#3b72f5',
+    shadowOffset: { width: 0, height: 14 },
+    shadowOpacity: 0.55,
+    shadowRadius: 28,
+    elevation: 12,
+  },
+  buttonDisabled: {
+    opacity: 0.6,
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
+    letterSpacing: 0.2,
   },
   errorText: {
-    color: '#9d1b38',
-    fontSize: 14,
+    color: '#f87171',
+    fontSize: 13,
     marginTop: 2,
     marginBottom: 8,
     textAlign: 'center',
+    fontWeight: '600',
   },
   passwordHint: {
-    color: '#5a6e85',
+    color: 'rgba(160, 185, 230, 0.50)',
     fontSize: 12,
     lineHeight: 18,
-    marginTop: -2,
-    marginBottom: 8,
+    marginTop: -4,
+    marginBottom: 10,
   },
   switchButton: {
-    marginTop: 18,
+    marginTop: 20,
     alignItems: 'center',
   },
   switchText: {
-    color: '#113b7a',
+    color: '#5b9cf6',
     fontSize: 14,
     fontWeight: '600',
   },

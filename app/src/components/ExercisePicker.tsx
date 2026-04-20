@@ -156,7 +156,7 @@ export default function ExercisePicker({ visible, onClose, onSelect }: Props) {
 
         {/* Lista */}
         {loading ? (
-          <ActivityIndicator color="#6366f1" style={{ marginTop: 40 }} />
+          <ActivityIndicator color="#5b9cf6" style={{ marginTop: 40 }} />
         ) : (
           <FlatList
             data={exercises}
@@ -185,7 +185,7 @@ export default function ExercisePicker({ visible, onClose, onSelect }: Props) {
                     {item.equipment && <Text style={styles.metaPill}>{item.equipment}</Text>}
                   </View>
                 </View>
-                <Ionicons name="add-circle" size={22} color="#6366f1" />
+                <Ionicons name="add-circle" size={22} color="#5b9cf6" />
               </TouchableOpacity>
             )}
             ListFooterComponent={
@@ -249,26 +249,26 @@ function formatCategory(value: string) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0f172a' },
+  container: { flex: 1, backgroundColor: '#060d1b' },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 20, paddingTop: 24 },
-  title: { fontSize: 20, fontWeight: '700', color: '#f8fafc' },
-  searchRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#1e293b', marginHorizontal: 16, borderRadius: 10, paddingHorizontal: 12 },
+  title: { fontSize: 20, fontWeight: '700', color: 'rgba(240, 244, 255, 0.95)' },
+  searchRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.07)', marginHorizontal: 16, borderRadius: 16, paddingHorizontal: 12, borderWidth: 1, borderColor: 'rgba(255,255,255,0.10)' },
   searchIcon: { marginRight: 8 },
-  searchInput: { flex: 1, color: '#f8fafc', fontSize: 16, paddingVertical: 12 },
+  searchInput: { flex: 1, color: 'rgba(240, 244, 255, 0.92)', fontSize: 16, paddingVertical: 12 },
   categoriesRow: { paddingHorizontal: 16, paddingTop: 12, gap: 8 },
-  categoryChip: { backgroundColor: '#1e293b', borderWidth: 1, borderColor: '#334155', borderRadius: 999, paddingHorizontal: 12, paddingVertical: 8, marginRight: 8 },
-  categoryChipActive: { backgroundColor: '#312e81', borderColor: '#4338ca' },
-  categoryChipText: { color: '#94a3b8', fontSize: 12, fontWeight: '600' },
-  categoryChipTextActive: { color: '#c7d2fe' },
-  exerciseRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: '#1e293b' },
-  exerciseName: { fontSize: 15, color: '#f8fafc', fontWeight: '500' },
+  categoryChip: { backgroundColor: 'rgba(255,255,255,0.07)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.10)', borderRadius: 999, paddingHorizontal: 14, paddingVertical: 8, marginRight: 8 },
+  categoryChipActive: { backgroundColor: 'rgba(91,156,246,0.18)', borderColor: 'rgba(91,156,246,0.35)' },
+  categoryChipText: { color: 'rgba(160, 185, 230, 0.60)', fontSize: 12, fontWeight: '600' },
+  categoryChipTextActive: { color: '#5b9cf6' },
+  exerciseRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.06)' },
+  exerciseName: { fontSize: 15, color: 'rgba(240, 244, 255, 0.90)', fontWeight: '500' },
   exerciseMeta: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 4 },
   muscle: { fontSize: 12, marginTop: 2 },
-  metaPill: { backgroundColor: '#111827', color: '#94a3b8', fontSize: 11, paddingHorizontal: 7, paddingVertical: 3, borderRadius: 999, overflow: 'hidden' },
-  empty: { color: '#475569', textAlign: 'center', marginTop: 24 },
-  createSection: { marginTop: 20, padding: 16, backgroundColor: '#1e293b', borderRadius: 12 },
-  createTitle: { color: '#94a3b8', fontSize: 13, marginBottom: 12 },
-  createInput: { backgroundColor: '#0f172a', color: '#f8fafc', borderRadius: 8, padding: 12, fontSize: 15, marginBottom: 12 },
-  createBtn: { backgroundColor: '#6366f1', borderRadius: 8, padding: 12, alignItems: 'center' },
-  createBtnText: { color: '#fff', fontWeight: '600', fontSize: 15 },
+  metaPill: { backgroundColor: 'rgba(255,255,255,0.07)', color: 'rgba(160, 185, 230, 0.60)', fontSize: 11, paddingHorizontal: 7, paddingVertical: 3, borderRadius: 999, overflow: 'hidden', borderWidth: 1, borderColor: 'rgba(255,255,255,0.08)' },
+  empty: { color: 'rgba(160, 185, 230, 0.45)', textAlign: 'center', marginTop: 24 },
+  createSection: { marginTop: 20, padding: 16, backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: 16, borderWidth: 1, borderColor: 'rgba(255,255,255,0.09)' },
+  createTitle: { color: 'rgba(160, 185, 230, 0.60)', fontSize: 13, marginBottom: 12, fontWeight: '600' },
+  createInput: { backgroundColor: 'rgba(255,255,255,0.07)', color: 'rgba(240, 244, 255, 0.90)', borderRadius: 12, padding: 12, fontSize: 15, marginBottom: 10, borderWidth: 1, borderColor: 'rgba(255,255,255,0.10)' },
+  createBtn: { backgroundColor: '#2b5fd9', borderRadius: 14, padding: 14, alignItems: 'center', shadowColor: '#3b72f5', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.45, shadowRadius: 16 },
+  createBtnText: { color: '#fff', fontWeight: '700', fontSize: 15 },
 })

@@ -29,7 +29,7 @@ export default function PasswordField({
         <Ionicons
           name={visible ? 'eye-off-outline' : 'eye-outline'}
           size={20}
-          color="#5d6f85"
+          color="rgba(160, 185, 230, 0.50)"
         />
       </TouchableOpacity>
     </View>

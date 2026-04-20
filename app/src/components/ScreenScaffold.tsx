@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, Platform } from 'react-native'
 import LiquidGlassBackground, { glass } from './LiquidGlassBackground'
 import AnimatedEntrance from './AnimatedEntrance'
 
@@ -47,43 +47,49 @@ export default function ScreenScaffold({
   )
 }
 
+const webBlur = (amount: string): object =>
+  Platform.OS === 'web'
+    ? ({ backdropFilter: `blur(${amount}) saturate(180%)`, WebkitBackdropFilter: `blur(${amount}) saturate(180%)` } as object)
+    : {}
+
 export const shell = StyleSheet.create({
   card: {
     ...glass.card,
     padding: 16,
-  },
+  } as any,
   softCard: {
     ...glass.softCard,
     padding: 14,
-  },
+  } as any,
   primaryButton: {
-    backgroundColor: '#0f4c81',
-    borderRadius: 18,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
+    backgroundColor: '#2b5fd9',
+    borderRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#0f4c81',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.18,
-    shadowRadius: 18,
-    elevation: 8,
+    shadowColor: '#3b72f5',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.45,
+    shadowRadius: 24,
+    elevation: 10,
   },
   secondaryButton: {
     ...glass.pill,
     paddingVertical: 10,
     paddingHorizontal: 14,
-  },
+  } as any,
   input: {
-    backgroundColor: 'rgba(255,255,255,0.62)',
-    color: '#10213a',
-    borderRadius: 16,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    color: 'rgba(240, 244, 255, 0.92)',
+    borderRadius: 18,
+    paddingHorizontal: 14,
+    paddingVertical: 13,
     fontSize: 15,
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.68)',
-  },
+    borderColor: 'rgba(255, 255, 255, 0.14)',
+    ...webBlur('16px'),
+  } as any,
 })
 
 const styles = StyleSheet.create({
@@ -107,22 +113,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   eyebrow: {
-    color: '#5d6f85',
-    fontSize: 12,
+    color: 'rgba(160, 185, 230, 0.65)',
+    fontSize: 11,
     fontWeight: '700',
-    letterSpacing: 1.2,
+    letterSpacing: 1.4,
     textTransform: 'uppercase',
     marginBottom: 6,
   },
   title: {
     fontSize: 30,
     fontWeight: '800',
-    color: '#10213a',
+    color: 'rgba(240, 244, 255, 0.95)',
+    letterSpacing: -0.5,
   },
   subtitle: {
-    color: '#4f6478',
+    color: 'rgba(180, 200, 235, 0.60)',
     fontSize: 14,
-    marginTop: 4,
+    marginTop: 5,
     lineHeight: 20,
   },
 })

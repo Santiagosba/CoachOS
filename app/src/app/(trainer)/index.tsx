@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { useRouter } from 'expo-router'
 import { useAuthStore } from '@/lib/auth-store'
 import { api } from '@/lib/api'
@@ -38,11 +38,11 @@ export default function TrainerDashboard() {
         const sessions = sessionsRes.data as UpcomingSession[]
         setStats({
           clients: clientsRes.data.length,
-          sessionsToday: sessions.filter((session) => {
-            const date = new Date(session.date)
-            return date >= new Date(from) && date <= new Date(to)
+          sessionsToday: sessions.filter((s) => {
+            const d = new Date(s.date)
+            return d >= new Date(from) && d <= new Date(to)
           }).length,
-          pendingSessions: sessions.filter((session) => session.status === 'PENDING').length,
+          pendingSessions: sessions.filter((s) => s.status === 'PENDING').length,
         })
         setUpcomingSessions(sessions.slice(0, 4))
       } catch (error: any) {
@@ -55,16 +55,16 @@ export default function TrainerDashboard() {
   }, [])
 
   if (loading) {
-    return <View style={styles.center}><ActivityIndicator color="#6366f1" size="large" /></View>
+    return <View style={styles.center}><ActivityIndicator color="#5b9cf6" size="large" /></View>
   }
 
   return (
     <ScreenScaffold
       eyebrow="Trainer Command"
       title={`Hola, ${user?.name?.split(' ')[0] ?? ''}`}
-      subtitle="Tus próximas acciones, clientes y sesiones importantes en un solo vistazo."
+      subtitle="Tus próximas acciones, clientes y sesiones en un solo vistazo."
       headerAction={
-        <TouchableOpacity onPress={logout} style={[glass.pill, styles.logoutButton]}>
+        <TouchableOpacity onPress={logout} style={[glass.pill as any, styles.logoutButton]}>
           <Text style={styles.logout}>Salir</Text>
         </TouchableOpacity>
       }
@@ -75,10 +75,11 @@ export default function TrainerDashboard() {
           <StatCard label="Sesiones hoy" value={stats.sessionsToday} />
         </View>
       </AnimatedEntrance>
+
       <AnimatedEntrance delay={140}>
         <View style={styles.statsRow}>
-          <StatCard label="Solicitudes" value={stats.pendingSessions} />
-          <TouchableOpacity style={[glass.card, styles.quickCard]} onPress={() => router.push('/(trainer)/clients/')}>
+          <StatCard label="Solicitudes" value={stats.pendingSessions} accent />
+          <TouchableOpacity style={[glass.card as any, styles.quickCard]} onPress={() => router.push('/(trainer)/clients/')}>
             <Text style={styles.quickCardTitle}>Nuevo cliente</Text>
             <Text style={styles.quickCardSub}>Alta rápida y seguimiento</Text>
           </TouchableOpacity>
@@ -86,14 +87,14 @@ export default function TrainerDashboard() {
       </AnimatedEntrance>
 
       <AnimatedEntrance delay={200}>
-        <TouchableOpacity style={[glass.card, styles.card]} onPress={() => router.push('/(trainer)/clients/')}>
+        <TouchableOpacity style={[glass.card as any, styles.card]} onPress={() => router.push('/(trainer)/clients/')}>
           <Text style={styles.cardTitle}>Gestionar clientes</Text>
           <Text style={styles.cardSub}>Perfiles, métricas y programas</Text>
         </TouchableOpacity>
       </AnimatedEntrance>
 
       <AnimatedEntrance delay={240}>
-        <TouchableOpacity style={[glass.card, styles.card]} onPress={() => router.push('/(trainer)/calendar/')}>
+        <TouchableOpacity style={[glass.card as any, styles.card]} onPress={() => router.push('/(trainer)/calendar/')}>
           <Text style={styles.cardTitle}>Calendario</Text>
           <Text style={styles.cardSub}>Sesiones programadas</Text>
         </TouchableOpacity>
@@ -111,7 +112,7 @@ export default function TrainerDashboard() {
             return (
               <TouchableOpacity
                 key={session.id}
-                style={[glass.softCard, styles.sessionRow]}
+                style={[glass.softCard as any, styles.sessionRow]}
                 onPress={() => router.push('/(trainer)/calendar/')}
               >
                 <View>
@@ -132,10 +133,10 @@ export default function TrainerDashboard() {
   )
 }
 
-function StatCard({ label, value }: { label: string; value: number }) {
+function StatCard({ label, value, accent }: { label: string; value: number; accent?: boolean }) {
   return (
-    <View style={[shell.card, styles.stat]}>
-      <Text style={styles.statValue}>{value}</Text>
+    <View style={[shell.card as any, styles.stat]}>
+      <Text style={[styles.statValue, accent && styles.statValueAccent]}>{value}</Text>
       <Text style={styles.statLabel}>{label}</Text>
     </View>
   )
@@ -144,42 +145,42 @@ function StatCard({ label, value }: { label: string; value: number }) {
 const styles = StyleSheet.create({
   center: { flex: 1, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center' },
   logoutButton: { paddingHorizontal: 14, paddingVertical: 10 },
-  logout: { color: '#113b7a', fontSize: 14, fontWeight: '700' },
-  statsRow: { flexDirection: 'row', gap: 12, marginBottom: 20 },
-  stat: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  statValue: { fontSize: 34, fontWeight: '800', color: '#113b7a' },
-  statLabel: { fontSize: 13, color: '#5d6f85', marginTop: 4 },
+  logout: { color: '#5b9cf6', fontSize: 14, fontWeight: '700' },
+  statsRow: { flexDirection: 'row', gap: 12, marginBottom: 14 },
+  stat: { flex: 1, alignItems: 'center', paddingVertical: 20 },
+  statValue: { fontSize: 36, fontWeight: '900', color: 'rgba(240, 244, 255, 0.95)', letterSpacing: -1 },
+  statValueAccent: { color: '#5b9cf6' },
+  statLabel: { fontSize: 12, color: 'rgba(160, 185, 230, 0.55)', marginTop: 4, fontWeight: '600', letterSpacing: 0.3 },
   quickCard: { flex: 1, padding: 16, justifyContent: 'center' },
-  quickCardTitle: { color: '#10213a', fontSize: 16, fontWeight: '800' },
-  quickCardSub: { color: '#5d6f85', fontSize: 13, marginTop: 4 },
+  quickCardTitle: { color: 'rgba(240, 244, 255, 0.92)', fontSize: 15, fontWeight: '800' },
+  quickCardSub: { color: 'rgba(160, 185, 230, 0.55)', fontSize: 13, marginTop: 4 },
   card: { padding: 20, marginBottom: 12 },
-  cardTitle: { fontSize: 17, fontWeight: '700', color: '#10213a', marginBottom: 4 },
-  cardSub: { fontSize: 14, color: '#5d6f85' },
+  cardTitle: { fontSize: 17, fontWeight: '700', color: 'rgba(240, 244, 255, 0.92)', marginBottom: 4 },
+  cardSub: { fontSize: 14, color: 'rgba(160, 185, 230, 0.55)' },
   section: { marginTop: 12, marginBottom: 24 },
-  errorText: { color: '#9f1239', fontSize: 13, marginBottom: 10 },
-  sectionTitle: { fontSize: 16, fontWeight: '800', color: '#10213a', marginBottom: 12 },
+  errorText: { color: '#f87171', fontSize: 13, marginBottom: 10 },
+  sectionTitle: { fontSize: 13, fontWeight: '800', color: 'rgba(160, 185, 230, 0.55)', marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 },
   sessionRow: {
     padding: 14,
-    marginBottom: 10,
+    marginBottom: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  sessionClient: { color: '#10213a', fontSize: 15, fontWeight: '700' },
-  sessionMeta: { color: '#5d6f85', fontSize: 13, marginTop: 3 },
+  sessionClient: { color: 'rgba(240, 244, 255, 0.90)', fontSize: 15, fontWeight: '700' },
+  sessionMeta: { color: 'rgba(160, 185, 230, 0.55)', fontSize: 13, marginTop: 3 },
   statusBadge: {
-    backgroundColor: 'rgba(255,255,255,0.42)',
-    color: '#4f647b',
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    color: 'rgba(160, 185, 230, 0.65)',
     fontSize: 11,
     fontWeight: '700',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     borderRadius: 999,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.10)',
   },
-  statusPending: { backgroundColor: '#ffe7a8', color: '#9b6b00' },
-  empty: { color: '#5d6f85', fontSize: 14 },
+  statusPending: { backgroundColor: 'rgba(251, 191, 36, 0.15)', color: '#fbbf24', borderColor: 'rgba(251,191,36,0.25)' },
+  empty: { color: 'rgba(160, 185, 230, 0.45)', fontSize: 14 },
 })

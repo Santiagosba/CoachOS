@@ -167,14 +167,14 @@ export default function ClientCalendarScreen() {
   const calDays           = buildCalendarDays(visibleMonth)
   const selectedDate      = fromDateKey(selectedKey)
 
-  if (loading) return <LiquidGlassBackground><ActivityIndicator style={{flex:1}} color="#6366f1" size="large"/></LiquidGlassBackground>
+  if (loading) return <LiquidGlassBackground><ActivityIndicator style={{flex:1}} color="#5b9cf6" size="large"/></LiquidGlassBackground>
 
   return (
     <LiquidGlassBackground>
       <ScrollView
         style={{flex:1}}
         contentContainerStyle={styles.scroll}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>{setRefreshing(true);load()}} tintColor="#113b7a"/>}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={()=>{setRefreshing(true);load()}} tintColor="#5b9cf6"/>}
       >
         <Text style={styles.eyebrow}>Mi Calendario</Text>
         <Text style={styles.title}>Sesiones</Text>
@@ -190,8 +190,8 @@ export default function ClientCalendarScreen() {
             <Text style={[styles.statLabel, pendingTrainer.length>0&&{color:'#92400e'}]}>Por confirmar</Text>
           </View>
           <TouchableOpacity style={[styles.statCard,styles.statCardBook]} onPress={()=>setShowForm(true)}>
-            <Ionicons name="add-circle" size={22} color="#0f4c81"/>
-            <Text style={[styles.statLabel,{color:'#0f4c81',fontWeight:'800'}]}>Reservar</Text>
+            <Ionicons name="add-circle" size={22} color="#5b9cf6"/>
+            <Text style={[styles.statLabel,{color:'#5b9cf6',fontWeight:'800'}]}>Reservar</Text>
           </TouchableOpacity>
         </View>
 
@@ -217,7 +217,7 @@ export default function ClientCalendarScreen() {
         <View style={[glass.card,styles.calCard]}>
           <View style={styles.monthRow}>
             <TouchableOpacity style={styles.navBtn} onPress={()=>setVisibleMonth(new Date(visibleMonth.getFullYear(),visibleMonth.getMonth()-1,1))}>
-              <Ionicons name="chevron-back" size={18} color="#113b7a"/>
+              <Ionicons name="chevron-back" size={18} color="#5b9cf6"/>
             </TouchableOpacity>
             <View style={{alignItems:'center',gap:6}}>
               <Text style={styles.monthLabel}>{MONTH_LABELS[visibleMonth.getMonth()]} {visibleMonth.getFullYear()}</Text>
@@ -226,7 +226,7 @@ export default function ClientCalendarScreen() {
               </TouchableOpacity>
             </View>
             <TouchableOpacity style={styles.navBtn} onPress={()=>setVisibleMonth(new Date(visibleMonth.getFullYear(),visibleMonth.getMonth()+1,1))}>
-              <Ionicons name="chevron-forward" size={18} color="#113b7a"/>
+              <Ionicons name="chevron-forward" size={18} color="#5b9cf6"/>
             </TouchableOpacity>
           </View>
 
@@ -441,85 +441,83 @@ export default function ClientCalendarScreen() {
 
 const styles = StyleSheet.create({
   scroll:     { padding:20, paddingTop:60, paddingBottom:40 },
-  eyebrow:    { fontSize:11, fontWeight:'700', color:'#5d6f85', letterSpacing:1.4, textTransform:'uppercase', marginBottom:4 },
-  title:      { fontSize:30, fontWeight:'900', color:'#10213a', marginBottom:20 },
+  eyebrow:    { fontSize:11, fontWeight:'700', color:'rgba(160,185,230,0.60)', letterSpacing:1.4, textTransform:'uppercase', marginBottom:4 },
+  title:      { fontSize:30, fontWeight:'900', color:'rgba(240,244,255,0.95)', marginBottom:20, letterSpacing:-0.5 },
   statsRow:   { flexDirection:'row', gap:10, marginBottom:14 },
-  statCard:   { flex:1, backgroundColor:'rgba(244,248,255,0.7)', borderRadius:18, padding:14, alignItems:'center', gap:4, borderWidth:1, borderColor:'rgba(255,255,255,0.6)' },
-  statCardWarn:{ backgroundColor:'rgba(254,243,199,0.8)', borderColor:'rgba(202,138,4,0.3)' },
-  statCardBook:{ backgroundColor:'rgba(15,76,129,0.08)', borderColor:'rgba(15,76,129,0.2)' },
-  statValue:  { fontSize:24, fontWeight:'900', color:'#10213a' },
-  statLabel:  { fontSize:11, fontWeight:'700', color:'#5d6f85', textAlign:'center' },
-  alertBanner:{ flexDirection:'row', alignItems:'center', gap:8, backgroundColor:'rgba(254,243,199,0.9)', borderRadius:14, padding:12, marginBottom:14, borderWidth:1, borderColor:'rgba(202,138,4,0.3)' },
-  alertText:  { flex:1, fontSize:13, fontWeight:'600', color:'#92400e' },
+  statCard:   { flex:1, backgroundColor:'rgba(255,255,255,0.07)', borderRadius:20, padding:14, alignItems:'center', gap:4, borderWidth:1, borderColor:'rgba(255,255,255,0.10)' },
+  statCardWarn:{ backgroundColor:'rgba(251,191,36,0.12)', borderColor:'rgba(251,191,36,0.20)' },
+  statCardBook:{ backgroundColor:'rgba(91,156,246,0.10)', borderColor:'rgba(91,156,246,0.20)' },
+  statValue:  { fontSize:24, fontWeight:'900', color:'rgba(240,244,255,0.92)' },
+  statLabel:  { fontSize:11, fontWeight:'700', color:'rgba(160,185,230,0.55)', textAlign:'center' },
+  alertBanner:{ flexDirection:'row', alignItems:'center', gap:8, backgroundColor:'rgba(251,191,36,0.12)', borderRadius:14, padding:12, marginBottom:14, borderWidth:1, borderColor:'rgba(251,191,36,0.22)' },
+  alertText:  { flex:1, fontSize:13, fontWeight:'600', color:'#fbbf24' },
   calCard:    { padding:16, marginBottom:14 },
   monthRow:   { flexDirection:'row', alignItems:'center', justifyContent:'space-between', marginBottom:16 },
-  navBtn:     { width:38, height:38, borderRadius:19, backgroundColor:'rgba(255,255,255,0.5)', alignItems:'center', justifyContent:'center' },
-  monthLabel: { fontSize:18, fontWeight:'800', color:'#10213a' },
-  todayBtn:   { backgroundColor:'#dce8ff', borderRadius:999, paddingHorizontal:12, paddingVertical:5 },
-  todayBtnText:{ fontSize:12, fontWeight:'700', color:'#234675' },
+  navBtn:     { width:38, height:38, borderRadius:19, backgroundColor:'rgba(255,255,255,0.07)', alignItems:'center', justifyContent:'center', borderWidth:1, borderColor:'rgba(255,255,255,0.10)' },
+  monthLabel: { fontSize:18, fontWeight:'800', color:'rgba(240,244,255,0.92)' },
+  todayBtn:   { backgroundColor:'rgba(91,156,246,0.15)', borderRadius:999, paddingHorizontal:12, paddingVertical:5, borderWidth:1, borderColor:'rgba(91,156,246,0.25)' },
+  todayBtnText:{ fontSize:12, fontWeight:'700', color:'#5b9cf6' },
   weekRow:    { flexDirection:'row', marginBottom:6 },
-  weekLabel:  { flex:1, textAlign:'center', fontSize:11, fontWeight:'700', color:'#5d6f85' },
+  weekLabel:  { flex:1, textAlign:'center', fontSize:11, fontWeight:'700', color:'rgba(160,185,230,0.50)' },
   grid:       { flexDirection:'row', flexWrap:'wrap', gap:6 },
-  dayCell:    { width:'13.3%', minHeight:72, borderRadius:14, padding:6, backgroundColor:'rgba(255,255,255,0.4)', borderWidth:1, borderColor:'rgba(255,255,255,0.5)', alignItems:'center' },
-  dayCellSel: { backgroundColor:'#113b7a', borderColor:'#113b7a' },
-  dayNum:     { fontSize:14, fontWeight:'800', color:'#10213a' },
+  dayCell:    { width:'13.3%', minHeight:72, borderRadius:14, padding:6, backgroundColor:'rgba(255,255,255,0.06)', borderWidth:1, borderColor:'rgba(255,255,255,0.08)', alignItems:'center' },
+  dayCellSel: { backgroundColor:'#2b5fd9', borderColor:'#3b72f5' },
+  dayNum:     { fontSize:14, fontWeight:'800', color:'rgba(240,244,255,0.80)' },
   dayNumSel:  { color:'#fff' },
   todayDotEl: { width:5, height:5, borderRadius:3, backgroundColor:'#38bdf8', marginTop:3 },
   dotsRow:    { flexDirection:'row', gap:3, marginTop:4, flexWrap:'wrap', justifyContent:'center' },
   dot:        { width:6, height:6, borderRadius:3 },
   dayPanel:   { padding:16, marginBottom:14 },
-  dayPanelEyebrow:{ fontSize:11, fontWeight:'700', color:'#5d6f85', letterSpacing:1, textTransform:'uppercase', marginBottom:4 },
-  dayPanelTitle:  { fontSize:16, fontWeight:'800', color:'#10213a', marginBottom:14, textTransform:'capitalize' },
+  dayPanelEyebrow:{ fontSize:11, fontWeight:'700', color:'rgba(160,185,230,0.55)', letterSpacing:1, textTransform:'uppercase', marginBottom:4 },
+  dayPanelTitle:  { fontSize:16, fontWeight:'800', color:'rgba(240,244,255,0.88)', marginBottom:14, textTransform:'capitalize' },
   emptyDay:   { alignItems:'center', paddingVertical:24, gap:8 },
-  emptyDayText:{ fontSize:14, color:'#aac0d8', fontWeight:'600' },
-  bookHereBtn: { backgroundColor:'#0f4c8118', borderRadius:12, paddingHorizontal:16, paddingVertical:8 },
-  bookHereBtnText:{ fontSize:13, fontWeight:'800', color:'#0f4c81' },
+  emptyDayText:{ fontSize:14, color:'rgba(160,185,230,0.45)', fontWeight:'600' },
+  bookHereBtn: { backgroundColor:'rgba(91,156,246,0.12)', borderRadius:12, paddingHorizontal:16, paddingVertical:8, borderWidth:1, borderColor:'rgba(91,156,246,0.20)' },
+  bookHereBtnText:{ fontSize:13, fontWeight:'800', color:'#5b9cf6' },
   sessCard:   { padding:12, marginBottom:8 },
   sessTop:    { flexDirection:'row', alignItems:'flex-start', gap:10 },
-  sessTime:   { fontSize:14, fontWeight:'700', color:'#10213a' },
-  sessOrigin: { fontSize:12, color:'#5d6f85', marginTop:3 },
-  sessNotes:  { fontSize:12, color:'#7a9ab8', marginTop:4 },
+  sessTime:   { fontSize:14, fontWeight:'700', color:'rgba(240,244,255,0.88)' },
+  sessOrigin: { fontSize:12, color:'rgba(160,185,230,0.55)', marginTop:3 },
+  sessNotes:  { fontSize:12, color:'rgba(160,185,230,0.45)', marginTop:4 },
   sessActions:{ flexDirection:'row', gap:8, marginTop:10, flexWrap:'wrap' },
   statusPill: { flexDirection:'row', alignItems:'center', gap:5, borderRadius:999, paddingHorizontal:9, paddingVertical:5 },
   statusDot:  { width:7, height:7, borderRadius:4 },
   statusText: { fontSize:11, fontWeight:'800' },
-  confirmBtn: { flexDirection:'row', alignItems:'center', gap:5, backgroundColor:'#166534', borderRadius:10, paddingHorizontal:11, paddingVertical:8 },
-  cancelBtn:  { flexDirection:'row', alignItems:'center', gap:5, backgroundColor:'#991b1b', borderRadius:10, paddingHorizontal:11, paddingVertical:8 },
+  confirmBtn: { flexDirection:'row', alignItems:'center', gap:5, backgroundColor:'rgba(22,101,52,0.80)', borderRadius:10, paddingHorizontal:11, paddingVertical:8 },
+  cancelBtn:  { flexDirection:'row', alignItems:'center', gap:5, backgroundColor:'rgba(153,27,27,0.80)', borderRadius:10, paddingHorizontal:11, paddingVertical:8 },
   actionText: { color:'#fff', fontSize:12, fontWeight:'700' },
-  sectionTitle:{ fontSize:13, fontWeight:'800', color:'#5d6f85', letterSpacing:1, textTransform:'uppercase', marginBottom:10, marginTop:4 },
+  sectionTitle:{ fontSize:11, fontWeight:'800', color:'rgba(160,185,230,0.55)', letterSpacing:1, textTransform:'uppercase', marginBottom:10, marginTop:4 },
   upCard:     { padding:14, marginBottom:10 },
   upLeft:     { flexDirection:'row', gap:12, flex:1 },
   upRight:    { alignItems:'flex-end' },
   dateBadge:  { width:44, alignItems:'center' },
-  dateDay:    { fontSize:22, fontWeight:'900', color:'#10213a' },
-  dateMonth:  { fontSize:10, color:'#5d6f85', fontWeight:'700' },
-  upWeekday:  { fontSize:14, fontWeight:'700', color:'#10213a', textTransform:'capitalize' },
-  upMeta:     { fontSize:12, color:'#5d6f85', marginTop:2 },
-  upOrigin:   { fontSize:11, color:'#0f4c81', fontWeight:'700', marginTop:3 },
-  modalOverlay:{ flex:1, justifyContent:'flex-end', backgroundColor:'rgba(0,0,0,0.45)' },
-  modalSheet: { backgroundColor:'#f4f8ff', borderTopLeftRadius:28, borderTopRightRadius:28, padding:24, paddingBottom:40 },
-  modalHandle:{ width:40, height:4, borderRadius:2, backgroundColor:'#c8d8e8', alignSelf:'center', marginBottom:20 },
-  modalTitle: { fontSize:22, fontWeight:'900', color:'#10213a', marginBottom:4 },
-  modalSub:   { fontSize:13, color:'#5d6f85', marginBottom:20 },
+  dateDay:    { fontSize:22, fontWeight:'900', color:'rgba(240,244,255,0.92)', letterSpacing:-0.5 },
+  dateMonth:  { fontSize:10, color:'rgba(160,185,230,0.55)', fontWeight:'700', letterSpacing:1 },
+  upWeekday:  { fontSize:14, fontWeight:'700', color:'rgba(240,244,255,0.88)', textTransform:'capitalize' },
+  upMeta:     { fontSize:12, color:'rgba(160,185,230,0.55)', marginTop:2 },
+  upOrigin:   { fontSize:11, color:'#5b9cf6', fontWeight:'700', marginTop:3 },
+  modalOverlay:{ flex:1, justifyContent:'flex-end', backgroundColor:'rgba(0,0,0,0.65)' },
+  modalSheet: { backgroundColor:'#0c1528', borderTopLeftRadius:32, borderTopRightRadius:32, padding:24, paddingBottom:40, borderWidth:1, borderColor:'rgba(255,255,255,0.10)' },
+  modalHandle:{ width:40, height:4, borderRadius:2, backgroundColor:'rgba(255,255,255,0.15)', alignSelf:'center', marginBottom:20 },
+  modalTitle: { fontSize:22, fontWeight:'900', color:'rgba(240,244,255,0.95)', marginBottom:4, letterSpacing:-0.3 },
+  modalSub:   { fontSize:13, color:'rgba(160,185,230,0.55)', marginBottom:20 },
   formRow:    { flexDirection:'row', gap:12, marginBottom:12 },
-  formLabel:  { fontSize:12, fontWeight:'700', color:'#5d6f85', marginBottom:6 },
-  formInput:  { backgroundColor:'rgba(255,255,255,0.8)', borderRadius:14, borderWidth:1, borderColor:'rgba(200,216,232,0.8)', paddingHorizontal:14, paddingVertical:12, fontSize:15, color:'#10213a' },
-  typeChip:   { flex:1, paddingVertical:10, borderRadius:12, alignItems:'center', backgroundColor:'rgba(255,255,255,0.5)', borderWidth:1.5, borderColor:'#c8d8e8' },
-  typeChipActive:{ backgroundColor:'#dce8ff', borderColor:'#97b8eb' },
-  typeChipText:{ fontSize:12, fontWeight:'700', color:'#5d6f85' },
+  formLabel:  { fontSize:12, fontWeight:'700', color:'rgba(160,185,230,0.55)', marginBottom:6 },
+  formInput:  { backgroundColor:'rgba(255,255,255,0.07)', borderRadius:14, borderWidth:1, borderColor:'rgba(255,255,255,0.10)', paddingHorizontal:14, paddingVertical:12, fontSize:15, color:'rgba(240,244,255,0.92)' },
+  typeChip:   { flex:1, paddingVertical:10, borderRadius:12, alignItems:'center', backgroundColor:'rgba(255,255,255,0.06)', borderWidth:1.5, borderColor:'rgba(255,255,255,0.10)' },
+  typeChipActive:{ backgroundColor:'rgba(91,156,246,0.18)', borderColor:'rgba(91,156,246,0.35)' },
+  typeChipText:{ fontSize:12, fontWeight:'700', color:'rgba(160,185,230,0.60)' },
   modalBtns:  { flexDirection:'row', gap:12 },
-  modalCancelBtn:{ flex:1, paddingVertical:14, borderRadius:14, backgroundColor:'rgba(0,0,0,0.06)', alignItems:'center' },
-  modalCancelText:{ fontWeight:'700', color:'#5d6f85' },
-  modalBookBtn:{ flex:2, paddingVertical:14, borderRadius:14, backgroundColor:'#0f4c81', alignItems:'center' },
+  modalCancelBtn:{ flex:1, paddingVertical:14, borderRadius:14, backgroundColor:'rgba(255,255,255,0.07)', alignItems:'center', borderWidth:1, borderColor:'rgba(255,255,255,0.10)' },
+  modalCancelText:{ fontWeight:'700', color:'rgba(160,185,230,0.60)' },
+  modalBookBtn:{ flex:2, paddingVertical:14, borderRadius:14, backgroundColor:'#2b5fd9', alignItems:'center', shadowColor:'#3b72f5', shadowOffset:{width:0,height:8}, shadowOpacity:0.45, shadowRadius:16 },
   modalBookText:{ fontWeight:'800', color:'#fff', fontSize:15 },
-  // Banner cancelación por entrenador
-  cancelledTrainerBanner:{ flexDirection:'row', alignItems:'center', gap:8, backgroundColor:'rgba(254,226,226,0.92)', borderRadius:14, padding:12, marginBottom:14, borderWidth:1, borderColor:'rgba(220,38,38,0.3)' },
-  cancelledTrainerBannerText:{ flex:1, fontSize:13, fontWeight:'600', color:'#b91c1c' },
-  // Sección canceladas por entrenador
+  cancelledTrainerBanner:{ flexDirection:'row', alignItems:'center', gap:8, backgroundColor:'rgba(248,113,113,0.12)', borderRadius:14, padding:12, marginBottom:14, borderWidth:1, borderColor:'rgba(248,113,113,0.22)' },
+  cancelledTrainerBannerText:{ flex:1, fontSize:13, fontWeight:'600', color:'#f87171' },
   cancelledCard:{ flexDirection:'row', alignItems:'center', gap:12, padding:14, marginBottom:10 },
-  cancelledIconWrap:{ width:40, height:40, borderRadius:20, backgroundColor:'rgba(254,226,226,0.8)', alignItems:'center', justifyContent:'center' },
-  cancelledDateText:{ fontSize:14, fontWeight:'700', color:'#10213a', textTransform:'capitalize' },
-  cancelledMetaText:{ fontSize:12, color:'#5d6f85', marginTop:2 },
-  cancelledBadge:{ backgroundColor:'rgba(254,226,226,0.8)', borderRadius:10, paddingHorizontal:10, paddingVertical:5 },
-  cancelledBadgeText:{ fontSize:11, fontWeight:'800', color:'#b91c1c' },
+  cancelledIconWrap:{ width:40, height:40, borderRadius:20, backgroundColor:'rgba(248,113,113,0.12)', alignItems:'center', justifyContent:'center', borderWidth:1, borderColor:'rgba(248,113,113,0.20)' },
+  cancelledDateText:{ fontSize:14, fontWeight:'700', color:'rgba(240,244,255,0.85)', textTransform:'capitalize' },
+  cancelledMetaText:{ fontSize:12, color:'rgba(160,185,230,0.55)', marginTop:2 },
+  cancelledBadge:{ backgroundColor:'rgba(248,113,113,0.12)', borderRadius:10, paddingHorizontal:10, paddingVertical:5, borderWidth:1, borderColor:'rgba(248,113,113,0.20)' },
+  cancelledBadgeText:{ fontSize:11, fontWeight:'800', color:'#f87171' },
 })
